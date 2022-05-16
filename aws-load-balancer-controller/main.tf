@@ -3,7 +3,7 @@ resource "helm_release" "aws-load-balancer-controlle" {
     kubernetes_service_account_v1.this
   ]
 
-  name       = "aws-load-balancer-controlle"
+  name       = "aws-load-balancer-controlle_${var.env}"
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
   namespace  = var.namespace
@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "this_assume" {
 }
 
 resource "aws_iam_role" "this" {
-  name = "${var.service_account_name}-role"
+  name = "${var.service_account_name}-role-${var.env}"
 
   assume_role_policy = data.aws_iam_policy_document.this_assume.json
   inline_policy {
