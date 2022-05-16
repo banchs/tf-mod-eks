@@ -1,3 +1,7 @@
+variable "env" {
+  description = "AWS Environment"
+  type        = string
+}
 variable "cluster_name" {
   type = string
 }
@@ -35,4 +39,8 @@ variable "load_balancer_controller" {
   default = {
     enabled = false
   }
+}
+
+variable "additional_sg" {
+  type = string
 }

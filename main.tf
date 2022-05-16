@@ -16,6 +16,10 @@ module "eks" {
   eks_managed_node_group_defaults = {
     disk_size = 20
   }
+  self_managed_node_group_defaults = {
+    vpc_security_group_ids = [var.additional_sg]
+  }
+
   eks_managed_node_groups = var.eks_managed_node_groups
   node_security_group_additional_rules = {
     ingress_allow_access_from_control_plane = {
@@ -49,9 +53,9 @@ data "aws_eks_cluster_auth" "cluster" {
 
 module "load_balancer_controller" {
 
-  source = "./aws-load-balancer-controller"
-  count  = var.load_balancer_controller.enabled ? 1 : 0
-
+  source                           = "./aws-load-balancer-controller"
+  count                            = var.load_balancer_controller.enabled ? 1 : 0
+  env                              = var.env
   cluster_name                     = module.eks.cluster_id
   load_balancer_controller_version = var.load_balancer_controller.version
   eks_openid_connect_provider = {

@@ -1,3 +1,7 @@
+variable "env" {
+  description = "AWS Environment"
+  type        = string
+}
 variable "cluster_name" {
   type = string
 }
