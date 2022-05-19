@@ -3,7 +3,7 @@ resource "helm_release" "aws-load-balancer-controlle" {
     kubernetes_service_account_v1.this
   ]
 
-  name       = "aws-load-balancer-controlle_${var.env}"
+  name       = "alb-controller-${var.env}"
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
   namespace  = var.namespace
