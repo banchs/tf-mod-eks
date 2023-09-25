@@ -1,7 +1,19 @@
-resource "helm_release" "aws-load-balancer-controlle" {
-  depends_on = [
-    kubernetes_service_account_v1.this
-  ]
+
+
+# EKS Cluster data
+
+data "aws_eks_cluster" "cluster" {
+  name = var.cluster_name
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = var.cluster_name
+}
+
+resource "helm_release" "aws-load-balancer-controller" {
+   depends_on = [
+     kubernetes_service_account_v1.this
+   ]
 
   name       = "alb-controller-${var.env}"
   repository = "https://aws.github.io/eks-charts"
@@ -42,7 +54,12 @@ data "aws_iam_policy_document" "this_assume" {
     condition {
       test     = "StringEquals"
       variable = "${var.eks_openid_connect_provider.url}:sub"
-      values   = ["system:serviceaccount:${var.namespace}:aws-load-balancer-controller"]
+      values   = ["system:serviceaccount:${var.namespace}:aws-load-balancer-controller",
+                  "system:serviceaccount:kube-system:aws-load-balancer-controller",
+                  "system:serviceaccount:monitoring:datadog",
+                  "system:serviceaccount:monitoring:datadog-cluster-checks",
+                  "system:serviceaccount:monitoring:datadog-cluster-agent"
+      ]
     }
 
     condition {
@@ -62,21 +79,21 @@ resource "aws_iam_role" "this" {
 
     policy = jsonencode({
       "Version" : "2012-10-17",
+
       "Statement" : [
         {
-          "Effect" : "Allow",
           "Action" : [
             "iam:CreateServiceLinkedRole"
           ],
-          "Resource" : "*",
           "Condition" : {
             "StringEquals" : {
               "iam:AWSServiceName" : "elasticloadbalancing.amazonaws.com"
             }
-          }
+          },
+          "Effect" : "Allow",
+          "Resource" : "*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "ec2:DescribeAccountAttributes",
             "ec2:DescribeAddresses",
@@ -102,10 +119,10 @@ resource "aws_iam_role" "this" {
             "elasticloadbalancing:DescribeTargetHealth",
             "elasticloadbalancing:DescribeTags"
           ],
+          "Effect" : "Allow",
           "Resource" : "*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "cognito-idp:DescribeUserPoolClient",
             "acm:ListCertificates",
@@ -125,113 +142,113 @@ resource "aws_iam_role" "this" {
             "shield:CreateProtection",
             "shield:DeleteProtection"
           ],
+          "Effect" : "Allow",
           "Resource" : "*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "ec2:AuthorizeSecurityGroupIngress",
             "ec2:RevokeSecurityGroupIngress"
           ],
+          "Effect" : "Allow",
           "Resource" : "*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "ec2:CreateSecurityGroup"
           ],
+          "Effect" : "Allow",
           "Resource" : "*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "ec2:CreateTags"
           ],
-          "Resource" : "arn:aws:ec2:*:*:security-group/*",
           "Condition" : {
-            "StringEquals" : {
-              "ec2:CreateAction" : "CreateSecurityGroup"
-            },
             "Null" : {
               "aws:RequestTag/elbv2.k8s.aws/cluster" : "false"
+            },
+            "StringEquals" : {
+              "ec2:CreateAction" : "CreateSecurityGroup"
             }
-          }
+          },
+          "Effect" : "Allow",
+          "Resource" : "arn:aws:ec2:*:*:security-group/*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "ec2:CreateTags",
             "ec2:DeleteTags"
           ],
-          "Resource" : "arn:aws:ec2:*:*:security-group/*",
           "Condition" : {
             "Null" : {
               "aws:RequestTag/elbv2.k8s.aws/cluster" : "true",
               "aws:ResourceTag/elbv2.k8s.aws/cluster" : "false"
             }
-          }
+          },
+          "Effect" : "Allow",
+          "Resource" : "arn:aws:ec2:*:*:security-group/*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "ec2:AuthorizeSecurityGroupIngress",
             "ec2:RevokeSecurityGroupIngress",
             "ec2:DeleteSecurityGroup"
           ],
-          "Resource" : "*",
           "Condition" : {
             "Null" : {
               "aws:ResourceTag/elbv2.k8s.aws/cluster" : "false"
             }
-          }
+          },
+          "Effect" : "Allow",
+          "Resource" : "*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "elasticloadbalancing:CreateLoadBalancer",
             "elasticloadbalancing:CreateTargetGroup"
           ],
-          "Resource" : "*",
           "Condition" : {
             "Null" : {
               "aws:RequestTag/elbv2.k8s.aws/cluster" : "false"
             }
-          }
+          },
+          "Effect" : "Allow",
+          "Resource" : "*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "elasticloadbalancing:CreateListener",
             "elasticloadbalancing:DeleteListener",
             "elasticloadbalancing:CreateRule",
             "elasticloadbalancing:DeleteRule"
           ],
+          "Effect" : "Allow",
           "Resource" : "*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
-            "elasticloadbalancing:AddTags",
             "elasticloadbalancing:RemoveTags"
-          ],
-          "Resource" : [
-            "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
-            "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
-            "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
           ],
           "Condition" : {
             "Null" : {
               "aws:RequestTag/elbv2.k8s.aws/cluster" : "true",
               "aws:ResourceTag/elbv2.k8s.aws/cluster" : "false"
             }
-          }
+          },
+          "Effect" : "Allow",
+          "Resource" : [
+            "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+            "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+            "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*"
+          ]
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "elasticloadbalancing:AddTags",
             "elasticloadbalancing:RemoveTags"
           ],
+          "Effect" : "Allow",
           "Resource" : [
             "arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*",
             "arn:aws:elasticloadbalancing:*:*:listener/app/*/*/*",
@@ -240,7 +257,6 @@ resource "aws_iam_role" "this" {
           ]
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "elasticloadbalancing:ModifyLoadBalancerAttributes",
             "elasticloadbalancing:SetIpAddressType",
@@ -251,23 +267,23 @@ resource "aws_iam_role" "this" {
             "elasticloadbalancing:ModifyTargetGroupAttributes",
             "elasticloadbalancing:DeleteTargetGroup"
           ],
-          "Resource" : "*",
           "Condition" : {
             "Null" : {
               "aws:ResourceTag/elbv2.k8s.aws/cluster" : "false"
             }
-          }
+          },
+          "Effect" : "Allow",
+          "Resource" : "*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "elasticloadbalancing:RegisterTargets",
             "elasticloadbalancing:DeregisterTargets"
           ],
+          "Effect" : "Allow",
           "Resource" : "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
         },
         {
-          "Effect" : "Allow",
           "Action" : [
             "elasticloadbalancing:SetWebAcl",
             "elasticloadbalancing:ModifyListener",
@@ -275,7 +291,9 @@ resource "aws_iam_role" "this" {
             "elasticloadbalancing:RemoveListenerCertificates",
             "elasticloadbalancing:ModifyRule"
           ],
+          "Effect" : "Allow",
           "Resource" : "*"
+
         }
       ]
     })
@@ -296,7 +314,7 @@ resource "kubernetes_service_account_v1" "this" {
 
 resource "kubernetes_ingress_class_v1" "ingress" {
   depends_on = [
-    helm_release.aws-load-balancer-controlle
+    helm_release.aws-load-balancer-controller
   ]
   metadata {
     name = "aws-alb"

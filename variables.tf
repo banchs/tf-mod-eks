@@ -19,15 +19,39 @@ variable "eks_managed_node_groups" {
   default = []
 }
 
+
+################################################################################
+# Self Managed Node Group
+################################################################################
+
+variable "self_managed_node_groups" {
+  description = "Map of self-managed node group definitions to create"
+  type        = any
+  default     = {}
+}
+
+variable "self_managed_node_group_defaults" {
+  description = "Map of self-managed node group default configurations"
+  type        = any
+  default     = {}
+}
+
 variable "aws_auth_roles" {
-  type    = any
+  type    = list(any)
   default = []
 }
 
 variable "aws_auth_users" {
-  type    = any
+  type    = list(any)
   default = []
 }
+
+variable "aws_auth_accounts" {
+  type    = list(any)
+  default = []
+}
+
+
 
 variable "tags" {
   type    = any
@@ -43,4 +67,25 @@ variable "load_balancer_controller" {
 
 variable "additional_sg" {
   type = string
+}
+
+variable "domain_name" {
+  type = string
+}
+
+variable "kms_key" {
+  type = string
+}
+
+
+variable "public_subnets"{
+  type = list(any)
+}
+
+variable "private_subnets"{
+  type = list(any)
+}
+
+variable "intra_subnets"{
+  type = list(any)
 }
