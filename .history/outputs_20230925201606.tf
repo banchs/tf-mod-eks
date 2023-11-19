@@ -55,20 +55,20 @@ output "cluster_security_group_id" {
 # KMS Key
 ################################################################################
 
-# output "kms_key_arn" {
-#   description = "The Amazon Resource Name (ARN) of the key"
-#   value       = module.eks.kms_key_arn
-# }
+output "kms_key_arn" {
+  description = "The Amazon Resource Name (ARN) of the key"
+  value       = module.eks.kms_key_arn
+}
 
-# output "kms_key_id" {
-#   description = "The globally unique identifier for the key"
-#   value       = module.eks.kms_key_id
-# }
+output "kms_key_id" {
+  description = "The globally unique identifier for the key"
+  value       = module.eks.kms_key_id
+}
 
-# output "kms_key_policy" {
-#   description = "The IAM resource policy set on the key"
-#   value       = module.eks.kms_key_policy
-# }
+output "kms_key_policy" {
+  description = "The IAM resource policy set on the key"
+  value       = module.eks.kms_key_policy
+}
 
 ################################################################################
 # Security Group
@@ -102,29 +102,29 @@ output "cluster_tls_certificate_sha1_fingerprint" {
 # IAM Role
 ################################################################################
 
-# output "cluster_iam_role_name" {
-#   description = "IAM role name of the EKS cluster"
-#   value       = module.eks.cluster_iam_role_name
-# }
+output "cluster_iam_role_name" {
+  description = "IAM role name of the EKS cluster"
+  value       = module.eks.cluster_iam_role_name
+}
 
-# output "cluster_iam_role_arn" {
-#   description = "IAM role ARN of the EKS cluster"
-#   value       = module.eks.cluster_iam_role_arn
-# }
+output "cluster_iam_role_arn" {
+  description = "IAM role ARN of the EKS cluster"
+  value       = module.eks.cluster_iam_role_arn
+}
 
-# output "cluster_iam_role_unique_id" {
-#   description = "Stable and unique string identifying the IAM role"
-#   value       = module.eks.cluster_iam_role_unique_id
-# }
+output "cluster_iam_role_unique_id" {
+  description = "Stable and unique string identifying the IAM role"
+  value       = module.eks.cluster_iam_role_unique_id
+}
 
 ################################################################################
 # EKS Addons
 ################################################################################
 
-# output "cluster_addons" {
-#   description = "Map of attribute maps for all EKS cluster addons enabled"
-#   value       = module.eks.cluster_addons
-# }
+output "cluster_addons" {
+  description = "Map of attribute maps for all EKS cluster addons enabled"
+  value       = module.eks.cluster_addons
+}
 
 ################################################################################
 # EKS Identity Provider
@@ -139,38 +139,38 @@ output "cluster_identity_providers" {
 # CloudWatch Log Group
 ################################################################################
 
-# output "cloudwatch_log_group_name" {
-#   description = "Name of cloudwatch log group created"
-#   value       = module.eks.cloudwatch_log_group_name
-# }
+output "cloudwatch_log_group_name" {
+  description = "Name of cloudwatch log group created"
+  value       = module.eks.cloudwatch_log_group_name
+}
 
-# output "cloudwatch_log_group_arn" {
-#   description = "Arn of cloudwatch log group created"
-#   value       = module.eks.cloudwatch_log_group_arn
-# }
+output "cloudwatch_log_group_arn" {
+  description = "Arn of cloudwatch log group created"
+  value       = module.eks.cloudwatch_log_group_arn
+}
 
 ################################################################################
 # Fargate Profile
 ################################################################################
 
-# output "fargate_profiles" {
-#   description = "Map of attribute maps for all EKS Fargate Profiles created"
-#   value       = module.eks.fargate_profiles
-# }
+output "fargate_profiles" {
+  description = "Map of attribute maps for all EKS Fargate Profiles created"
+  value       = module.eks.fargate_profiles
+}
 
 ################################################################################
 # EKS Managed Node Group
 ################################################################################
 
-# output "eks_managed_node_groups" {
-#   description = "Map of attribute maps for all EKS managed node groups created"
-#   value       = module.eks.eks_managed_node_groups
-# }
+output "eks_managed_node_groups" {
+  description = "Map of attribute maps for all EKS managed node groups created"
+  value       = module.eks.eks_managed_node_groups
+}
 
-# output "eks_managed_node_groups_autoscaling_group_names" {
-#   description = "List of the autoscaling group names created by EKS managed node groups"
-#   value       = module.eks.eks_managed_node_groups_autoscaling_group_names
-# }
+output "eks_managed_node_groups_autoscaling_group_names" {
+  description = "List of the autoscaling group names created by EKS managed node groups"
+  value       = module.eks.eks_managed_node_groups_autoscaling_group_names
+}
 
 ################################################################################
 # Self Managed Node Group
@@ -181,10 +181,10 @@ output "cluster_identity_providers" {
 #   value       = module.eks.self_managed_node_groups
 # }
 
-# output "self_managed_node_groups_autoscaling_group_names" {
-#   description = "List of the autoscaling group names created by self-managed node groups"
-#   value       = module.eks.self_managed_node_groups_autoscaling_group_names
-# }
+output "self_managed_node_groups_autoscaling_group_names" {
+  description = "List of the autoscaling group names created by self-managed node groups"
+  value       = module.eks.self_managed_node_groups_autoscaling_group_names
+}
 
 ################################################################################
 # Additional

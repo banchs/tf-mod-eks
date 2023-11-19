@@ -282,23 +282,23 @@ resource "helm_release" "aws-load-balancer-controller" {
   name       = "alb-controller-${var.env}"
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
-  namespace  = "kube-system"
+  namespace  = var.namespace
   #version    = var.load_balancer_controller_version
 
   set {
     name  = "clusterName"
-    value = module.eks.cluster_name
+    value = var.cluster_name
   }
 
-  set {
-    name  = "serviceAccount.create"
-    value = false
-  }
+  # set {
+  #   name  = "serviceAccount.create"
+  #   value = true
+  # }
 
-  set {
-    name  = "serviceAccount.name"
-    value = var.service_account_name
-  }
+  # set {
+  #   name  = "serviceAccount.name"
+  #   value = var.service_account_name
+  # }
 }
 
 
@@ -578,7 +578,7 @@ module "lb_role" {
 resource "kubernetes_service_account_v1" "this" {
   metadata {
     name      = var.service_account_name
-    namespace = "kube-system"
+    namespace = var.namespace
     labels = {
       "app.kubernetes.io/name"      = "aws-load-balancer-controller"
       "app.kubernetes.io/component" = "controller"

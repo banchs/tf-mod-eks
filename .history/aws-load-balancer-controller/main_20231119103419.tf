@@ -9,10 +9,10 @@ resource "helm_release" "aws-load-balancer-controller" {
   namespace  = var.namespace
   version    = var.load_balancer_controller_version
 
-  set {
-    name  = "clusterName"
-    value = var.cluster_name
-  }
+  # set {
+  #   name  = "clusterName"
+  #   value = var.cluster_name
+  # }
 
   # set {
   #   name  = "serviceAccount.create"
@@ -28,42 +28,27 @@ resource "helm_release" "aws-load-balancer-controller" {
 
 #Assume policy for Load balancer controller
 
-# data "aws_iam_policy_document" "this_assume" {
+data "aws_iam_policy_document" "this_assume" {
 
-#   statement {
-#     principals {
-#       type        = "Federated"
-#       identifiers = [var.eks_openid_connect_provider.arn]
-#     }
+  statement {
+    principals {
+      type        = "Federated"
+      identifiers = [var.eks_openid_connect_provider.arn]
+    }
 
-#     actions = ["sts:AssumeRoleWithWebIdentity"]
-#     effect  = "Allow"
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+    effect  = "Allow"
 
-#     condition {
-#       test     = "StringEquals"
-#       variable = "${var.eks_openid_connect_provider.url}:sub"
-#       values   = ["system:serviceaccount:${var.namespace}:aws-load-balancer-controller"]
-#     }
+    condition {
+      test     = "StringEquals"
+      variable = "${var.eks_openid_connect_provider.url}:sub"
+      values   = ["system:serviceaccount:${var.namespace}:aws-load-balancer-controller"]
+    }
 
-#     condition {
-#       test     = "StringEquals"
-#       variable = "${var.eks_openid_connect_provider.url}:aud"
-#       values   = ["sts.amazonaws.com"]
-#     }
-#   }
-# }
-
-module "lb_role" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-
-  role_name                              = "${var.service_account_name}-${var.env}"
-  attach_load_balancer_controller_policy = true
-
-  oidc_providers = {
-    main = {
-      provider_arn = var.eks_openid_connect_provider.arn
-      #var.oidc_provider_arn
-      namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
+    condition {
+      test     = "StringEquals"
+      variable = "${var.eks_openid_connect_provider.url}:aud"
+      values   = ["sts.amazonaws.com"]
     }
   }
 }
@@ -303,12 +288,12 @@ resource "kubernetes_service_account_v1" "this" {
   metadata {
     name      = var.service_account_name
     namespace = var.namespace
-    labels = {
-      "app.kubernetes.io/name"      = "aws-load-balancer-controller"
-      "app.kubernetes.io/component" = "controller"
-    }
+labels = {
+     "app.kubernetes.io/name"      = "aws-load-balancer-controller"
+     "app.kubernetes.io/component" = "controller"
+     }    
     annotations = {
-      "eks.amazonaws.com/role-arn"               = module.lb_role.iam_role_arn
+      "eks.amazonaws.com/role-arn"               = "${aws_iam_role.this.arn}"
       "eks.amazonaws.com/sts-regional-endpoints" = "true"
     }
   }

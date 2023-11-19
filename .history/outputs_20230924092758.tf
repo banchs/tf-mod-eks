@@ -2,6 +2,17 @@ output "eks" {
   value = module.eks
 }
 
+output "cluster_id" {
+  value = module.eks.cluster_name
+}
+
+output "cluster_certificate_authority_data" {
+  value = module.eks.cluster_certificate_authority_data
+}
+
+output "cluster_endpoint" {
+  value = module.eks.cluster_endpoint
+}
 ################################################################################
 # Cluster
 ################################################################################
@@ -11,15 +22,7 @@ output "cluster_arn" {
   value       = module.eks.cluster_arn
 }
 
-output "cluster_certificate_authority_data" {
-  description = "Base64 encoded certificate data required to communicate with the cluster"
-  value       = module.eks.cluster_certificate_authority_data
-}
 
-output "cluster_endpoint" {
-  description = "Endpoint for your Kubernetes API server"
-  value       = module.eks.cluster_endpoint
-}
 
 output "cluster_id" {
   description = "The ID of the EKS cluster. Note: currently a value is returned only for local EKS clusters created on Outposts"
@@ -55,20 +58,20 @@ output "cluster_security_group_id" {
 # KMS Key
 ################################################################################
 
-# output "kms_key_arn" {
-#   description = "The Amazon Resource Name (ARN) of the key"
-#   value       = module.eks.kms_key_arn
-# }
+output "kms_key_arn" {
+  description = "The Amazon Resource Name (ARN) of the key"
+  value       = module.eks.kms_key_arn
+}
 
-# output "kms_key_id" {
-#   description = "The globally unique identifier for the key"
-#   value       = module.eks.kms_key_id
-# }
+output "kms_key_id" {
+  description = "The globally unique identifier for the key"
+  value       = module.eks.kms_key_id
+}
 
-# output "kms_key_policy" {
-#   description = "The IAM resource policy set on the key"
-#   value       = module.eks.kms_key_policy
-# }
+output "kms_key_policy" {
+  description = "The IAM resource policy set on the key"
+  value       = module.eks.kms_key_policy
+}
 
 ################################################################################
 # Security Group
@@ -102,29 +105,29 @@ output "cluster_tls_certificate_sha1_fingerprint" {
 # IAM Role
 ################################################################################
 
-# output "cluster_iam_role_name" {
-#   description = "IAM role name of the EKS cluster"
-#   value       = module.eks.cluster_iam_role_name
-# }
+output "cluster_iam_role_name" {
+  description = "IAM role name of the EKS cluster"
+  value       = module.eks.cluster_iam_role_name
+}
 
-# output "cluster_iam_role_arn" {
-#   description = "IAM role ARN of the EKS cluster"
-#   value       = module.eks.cluster_iam_role_arn
-# }
+output "cluster_iam_role_arn" {
+  description = "IAM role ARN of the EKS cluster"
+  value       = module.eks.cluster_iam_role_arn
+}
 
-# output "cluster_iam_role_unique_id" {
-#   description = "Stable and unique string identifying the IAM role"
-#   value       = module.eks.cluster_iam_role_unique_id
-# }
+output "cluster_iam_role_unique_id" {
+  description = "Stable and unique string identifying the IAM role"
+  value       = module.eks.cluster_iam_role_unique_id
+}
 
 ################################################################################
 # EKS Addons
 ################################################################################
 
-# output "cluster_addons" {
-#   description = "Map of attribute maps for all EKS cluster addons enabled"
-#   value       = module.eks.cluster_addons
-# }
+output "cluster_addons" {
+  description = "Map of attribute maps for all EKS cluster addons enabled"
+  value       = module.eks.cluster_addons
+}
 
 ################################################################################
 # EKS Identity Provider
@@ -139,15 +142,15 @@ output "cluster_identity_providers" {
 # CloudWatch Log Group
 ################################################################################
 
-# output "cloudwatch_log_group_name" {
-#   description = "Name of cloudwatch log group created"
-#   value       = module.eks.cloudwatch_log_group_name
-# }
+output "cloudwatch_log_group_name" {
+  description = "Name of cloudwatch log group created"
+  value       = module.eks.cloudwatch_log_group_name
+}
 
-# output "cloudwatch_log_group_arn" {
-#   description = "Arn of cloudwatch log group created"
-#   value       = module.eks.cloudwatch_log_group_arn
-# }
+output "cloudwatch_log_group_arn" {
+  description = "Arn of cloudwatch log group created"
+  value       = module.eks.cloudwatch_log_group_arn
+}
 
 ################################################################################
 # Fargate Profile
@@ -162,29 +165,29 @@ output "cluster_identity_providers" {
 # EKS Managed Node Group
 ################################################################################
 
-# output "eks_managed_node_groups" {
-#   description = "Map of attribute maps for all EKS managed node groups created"
-#   value       = module.eks.eks_managed_node_groups
-# }
+output "eks_managed_node_groups" {
+  description = "Map of attribute maps for all EKS managed node groups created"
+  value       = module.eks.eks_managed_node_groups
+}
 
-# output "eks_managed_node_groups_autoscaling_group_names" {
-#   description = "List of the autoscaling group names created by EKS managed node groups"
-#   value       = module.eks.eks_managed_node_groups_autoscaling_group_names
-# }
+output "eks_managed_node_groups_autoscaling_group_names" {
+  description = "List of the autoscaling group names created by EKS managed node groups"
+  value       = module.eks.eks_managed_node_groups_autoscaling_group_names
+}
 
 ################################################################################
 # Self Managed Node Group
 ################################################################################
 
-# output "self_managed_node_groups" {
-#   description = "Map of attribute maps for all self managed node groups created"
-#   value       = module.eks.self_managed_node_groups
-# }
+output "self_managed_node_groups" {
+  description = "Map of attribute maps for all self managed node groups created"
+  value       = module.eks.self_managed_node_groups
+}
 
-# output "self_managed_node_groups_autoscaling_group_names" {
-#   description = "List of the autoscaling group names created by self-managed node groups"
-#   value       = module.eks.self_managed_node_groups_autoscaling_group_names
-# }
+output "self_managed_node_groups_autoscaling_group_names" {
+  description = "List of the autoscaling group names created by self-managed node groups"
+  value       = module.eks.self_managed_node_groups_autoscaling_group_names
+}
 
 ################################################################################
 # Additional
@@ -194,3 +197,7 @@ output "aws_auth_configmap_yaml" {
   description = "Formatted yaml output for base aws-auth configmap containing roles used in cluster node groups/fargate profiles"
   value       = module.eks.aws_auth_configmap_yaml
 }
+
+
+
+

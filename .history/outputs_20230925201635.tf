@@ -55,20 +55,20 @@ output "cluster_security_group_id" {
 # KMS Key
 ################################################################################
 
-# output "kms_key_arn" {
-#   description = "The Amazon Resource Name (ARN) of the key"
-#   value       = module.eks.kms_key_arn
-# }
+output "kms_key_arn" {
+  description = "The Amazon Resource Name (ARN) of the key"
+  value       = module.eks.kms_key_arn
+}
 
-# output "kms_key_id" {
-#   description = "The globally unique identifier for the key"
-#   value       = module.eks.kms_key_id
-# }
+output "kms_key_id" {
+  description = "The globally unique identifier for the key"
+  value       = module.eks.kms_key_id
+}
 
-# output "kms_key_policy" {
-#   description = "The IAM resource policy set on the key"
-#   value       = module.eks.kms_key_policy
-# }
+output "kms_key_policy" {
+  description = "The IAM resource policy set on the key"
+  value       = module.eks.kms_key_policy
+}
 
 ################################################################################
 # Security Group
@@ -102,20 +102,20 @@ output "cluster_tls_certificate_sha1_fingerprint" {
 # IAM Role
 ################################################################################
 
-# output "cluster_iam_role_name" {
-#   description = "IAM role name of the EKS cluster"
-#   value       = module.eks.cluster_iam_role_name
-# }
+output "cluster_iam_role_name" {
+  description = "IAM role name of the EKS cluster"
+  value       = module.eks.cluster_iam_role_name
+}
 
-# output "cluster_iam_role_arn" {
-#   description = "IAM role ARN of the EKS cluster"
-#   value       = module.eks.cluster_iam_role_arn
-# }
+output "cluster_iam_role_arn" {
+  description = "IAM role ARN of the EKS cluster"
+  value       = module.eks.cluster_iam_role_arn
+}
 
-# output "cluster_iam_role_unique_id" {
-#   description = "Stable and unique string identifying the IAM role"
-#   value       = module.eks.cluster_iam_role_unique_id
-# }
+output "cluster_iam_role_unique_id" {
+  description = "Stable and unique string identifying the IAM role"
+  value       = module.eks.cluster_iam_role_unique_id
+}
 
 ################################################################################
 # EKS Addons

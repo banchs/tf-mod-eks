@@ -282,23 +282,23 @@ resource "helm_release" "aws-load-balancer-controller" {
   name       = "alb-controller-${var.env}"
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
-  namespace  = "kube-system"
-  #version    = var.load_balancer_controller_version
+  namespace  = var.namespace
+  version    = var.load_balancer_controller_version
 
   set {
     name  = "clusterName"
-    value = module.eks.cluster_name
+    value = var.cluster_name
   }
 
-  set {
-    name  = "serviceAccount.create"
-    value = false
-  }
+  # set {
+  #   name  = "serviceAccount.create"
+  #   value = true
+  # }
 
-  set {
-    name  = "serviceAccount.name"
-    value = var.service_account_name
-  }
+  # set {
+  #   name  = "serviceAccount.name"
+  #   value = var.service_account_name
+  # }
 }
 
 
@@ -337,7 +337,7 @@ module "lb_role" {
 
   oidc_providers = {
     main = {
-      provider_arn = module.eks.oidc_provider_arn
+      provider_arn = var.eks_openid_connect_provider.arn
       #var.oidc_provider_arn
       namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
     }
@@ -578,7 +578,7 @@ module "lb_role" {
 resource "kubernetes_service_account_v1" "this" {
   metadata {
     name      = var.service_account_name
-    namespace = "kube-system"
+    namespace = var.namespace
     labels = {
       "app.kubernetes.io/name"      = "aws-load-balancer-controller"
       "app.kubernetes.io/component" = "controller"

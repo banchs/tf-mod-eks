@@ -1,0 +1,73 @@
+2023/11/19 15:21:05 INF Using log format version 1
+2023/11/19 15:21:05 INF Starting to serve handler /metrics, port 9092
+2023/11/19 15:21:05 INF Metadata response status code: 404. Body: <?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ <head>
+  <title>404 - Not Found</title>
+ </head>
+ <body>
+  <h1>404 - Not Found</h1>
+ </body>
+</html>
+
+2023/11/19 15:21:05 INF Metadata response status code: 404. Body: <?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ <head>
+  <title>404 - Not Found</title>
+ </head>
+ <body>
+  <h1>404 - Not Found</h1>
+ </body>
+</html>
+
+2023/11/19 15:21:05 INF Startup Metadata Retrieved metadata={"accountId":"060875010022","availabilityZone":"us-east-1b","instanceId":"i-05e2655bd7b8fb3a4","instanceLifeCycle":"spot","instanceType":"m6i.large","localHostname":"ip-10-10-32-20.ec2.internal","privateIp":"10.10.32.20","publicHostname":"","publicIp":"","region":"us-east-1"}
+2023/11/19 15:21:05 INF aws-node-termination-handler arguments: 
+	dry-run: false,
+	node-name: ip-10-10-32-20.ec2.internal,
+	pod-name: aws-node-termination-handler-kqz88,
+	pod-namespace: kube-system,
+	metadata-url: http://169.254.169.254,
+	kubernetes-service-host: 172.20.0.1,
+	kubernetes-service-port: 443,
+	delete-local-data: true,
+	ignore-daemon-sets: true,
+	pod-termination-grace-period: -1,
+	node-termination-grace-period: 120,
+	enable-scheduled-event-draining: false,
+	enable-spot-interruption-draining: true,
+	enable-sqs-termination-draining: false,
+	delete-sqs-msg-if-node-not-found: false,
+	enable-rebalance-monitoring: true,
+	enable-rebalance-draining: false,
+	metadata-tries: 3,
+	cordon-only: false,
+	taint-node: false,
+	taint-effect: NoSchedule,
+	exclude-from-load-balancers: false,
+	json-logging: false,
+	log-level: info,
+	webhook-proxy: ,
+	webhook-headers: <not-displayed>,
+	webhook-url: ,
+	webhook-template: <not-displayed>,
+	uptime-from-file: /proc/uptime,
+	enable-prometheus-server: false,
+	prometheus-server-port: 9092,
+	emit-kubernetes-events: false,
+	kubernetes-events-extra-annotations: ,
+	aws-region: us-east-1,
+	queue-url: ,
+	check-tag-before-draining: true,
+	managed-tag: aws-node-termination-handler/managed,
+	use-provider-id: false,
+	aws-endpoint: ,
+
+2023/11/19 15:21:05 INF Started watching for interruption events
+2023/11/19 15:21:05 INF Kubernetes AWS Node Termination Handler has started successfully!
+2023/11/19 15:21:05 INF Started watching for event cancellations
+2023/11/19 15:21:05 INF Started monitoring for events event_type=SPOT_ITN_MONITOR
+2023/11/19 15:21:05 INF Started monitoring for events event_type=REBALANCE_RECOMMENDATION_MONITOR

@@ -290,15 +290,15 @@ resource "helm_release" "aws-load-balancer-controller" {
     value = module.eks.cluster_name
   }
 
-  set {
-    name  = "serviceAccount.create"
-    value = false
-  }
+  # set {
+  #   name  = "serviceAccount.create"
+  #   value = true
+  # }
 
-  set {
-    name  = "serviceAccount.name"
-    value = var.service_account_name
-  }
+  # set {
+  #   name  = "serviceAccount.name"
+  #   value = var.service_account_name
+  # }
 }
 
 
